@@ -45,6 +45,8 @@ func mockRequestUnmarshaler(mr *mockRequest) internal.RequestUnmarshaler {
 }
 
 func TestQueuedRetry_DropOnPermanentError(t *testing.T) {
+	t.Parallel()
+
 	qCfg := DefaultQueueSettings()
 	rCfg := DefaultRetrySettings()
 	mockR := newMockRequest(context.Background(), 2, consumererror.NewPermanent(errors.New("bad data")))
@@ -68,6 +70,8 @@ func TestQueuedRetry_DropOnPermanentError(t *testing.T) {
 }
 
 func TestQueuedRetry_DropOnNoRetry(t *testing.T) {
+	t.Parallel()
+
 	qCfg := DefaultQueueSettings()
 	rCfg := DefaultRetrySettings()
 	rCfg.Enabled = false
@@ -92,6 +96,8 @@ func TestQueuedRetry_DropOnNoRetry(t *testing.T) {
 }
 
 func TestQueuedRetry_OnError(t *testing.T) {
+	t.Parallel()
+
 	qCfg := DefaultQueueSettings()
 	qCfg.NumConsumers = 1
 	rCfg := DefaultRetrySettings()
@@ -119,6 +125,8 @@ func TestQueuedRetry_OnError(t *testing.T) {
 }
 
 func TestQueuedRetry_StopWhileWaiting(t *testing.T) {
+	t.Parallel()
+
 	qCfg := DefaultQueueSettings()
 	qCfg.NumConsumers = 1
 	rCfg := DefaultRetrySettings()
@@ -152,6 +160,8 @@ func TestQueuedRetry_StopWhileWaiting(t *testing.T) {
 }
 
 func TestQueuedRetry_DoNotPreserveCancellation(t *testing.T) {
+	t.Parallel()
+
 	qCfg := DefaultQueueSettings()
 	qCfg.NumConsumers = 1
 	rCfg := DefaultRetrySettings()
@@ -179,6 +189,8 @@ func TestQueuedRetry_DoNotPreserveCancellation(t *testing.T) {
 }
 
 func TestQueuedRetry_MaxElapsedTime(t *testing.T) {
+	t.Parallel()
+
 	qCfg := DefaultQueueSettings()
 	qCfg.NumConsumers = 1
 	rCfg := DefaultRetrySettings()
@@ -226,6 +238,8 @@ func (e wrappedError) Unwrap() error {
 }
 
 func TestQueuedRetry_ThrottleError(t *testing.T) {
+	t.Parallel()
+
 	qCfg := DefaultQueueSettings()
 	qCfg.NumConsumers = 1
 	rCfg := DefaultRetrySettings()
@@ -257,6 +271,8 @@ func TestQueuedRetry_ThrottleError(t *testing.T) {
 }
 
 func TestQueuedRetry_RetryOnError(t *testing.T) {
+	t.Parallel()
+
 	qCfg := DefaultQueueSettings()
 	qCfg.NumConsumers = 1
 	qCfg.QueueSize = 1
@@ -285,6 +301,8 @@ func TestQueuedRetry_RetryOnError(t *testing.T) {
 }
 
 func TestQueuedRetry_DropOnFull(t *testing.T) {
+	t.Parallel()
+
 	qCfg := DefaultQueueSettings()
 	qCfg.QueueSize = 0
 	rCfg := DefaultRetrySettings()
@@ -300,6 +318,8 @@ func TestQueuedRetry_DropOnFull(t *testing.T) {
 }
 
 func TestQueuedRetryHappyPath(t *testing.T) {
+	t.Parallel()
+
 	tt, err := obsreporttest.SetupTelemetry()
 	require.NoError(t, err)
 	t.Cleanup(func() { require.NoError(t, tt.Shutdown(context.Background())) })
@@ -337,6 +357,8 @@ func TestQueuedRetryHappyPath(t *testing.T) {
 }
 
 func TestQueuedRetry_QueueMetricsReported(t *testing.T) {
+	t.Parallel()
+
 	qCfg := DefaultQueueSettings()
 	qCfg.NumConsumers = 0 // to make every request go straight to the queue
 	rCfg := DefaultRetrySettings()
@@ -353,6 +375,8 @@ func TestQueuedRetry_QueueMetricsReported(t *testing.T) {
 }
 
 func TestNoCancellationContext(t *testing.T) {
+	t.Parallel()
+
 	deadline := time.Now().Add(1 * time.Second)
 	ctx, cancelFunc := context.WithDeadline(context.Background(), deadline)
 	cancelFunc()

@@ -42,13 +42,14 @@ const (
 	fakeLogsParentSpanName = "fake_logs_parent_span_name"
 )
 
-var fakeLogsExporterName = config.NewComponentIDWithName("fake_logs_exporter", "with_name")
-
 var (
+	fakeLogsExporterName   = config.NewComponentIDWithName("fake_logs_exporter", "with_name")
 	fakeLogsExporterConfig = config.NewExporterSettings(fakeLogsExporterName)
 )
 
 func TestLogsRequest(t *testing.T) {
+	t.Parallel()
+
 	lr := newLogsRequest(context.Background(), testdata.GenerateLogsOneLogRecord(), nil)
 
 	logErr := consumererror.NewLogs(errors.New("some error"), pdata.NewLogs())
@@ -60,24 +61,32 @@ func TestLogsRequest(t *testing.T) {
 }
 
 func TestLogsExporter_InvalidName(t *testing.T) {
+	t.Parallel()
+
 	le, err := NewLogsExporter(nil, componenttest.NewNopExporterCreateSettings(), newPushLogsData(nil))
 	require.Nil(t, le)
 	require.Equal(t, errNilConfig, err)
 }
 
 func TestLogsExporter_NilLogger(t *testing.T) {
+	t.Parallel()
+
 	le, err := NewLogsExporter(&fakeLogsExporterConfig, component.ExporterCreateSettings{}, newPushLogsData(nil))
 	require.Nil(t, le)
 	require.Equal(t, errNilLogger, err)
 }
 
 func TestLogsExporter_NilPushLogsData(t *testing.T) {
+	t.Parallel()
+
 	le, err := NewLogsExporter(&fakeLogsExporterConfig, componenttest.NewNopExporterCreateSettings(), nil)
 	require.Nil(t, le)
 	require.Equal(t, errNilPushLogsData, err)
 }
 
 func TestLogsExporter_Default(t *testing.T) {
+	t.Parallel()
+
 	ld := pdata.NewLogs()
 	le, err := NewLogsExporter(&fakeLogsExporterConfig, componenttest.NewNopExporterCreateSettings(), newPushLogsData(nil))
 	assert.NotNil(t, le)
@@ -90,6 +99,8 @@ func TestLogsExporter_Default(t *testing.T) {
 }
 
 func TestLogsExporter_WithCapabilities(t *testing.T) {
+	t.Parallel()
+
 	capabilities := consumer.Capabilities{MutatesData: true}
 	le, err := NewLogsExporter(&fakeLogsExporterConfig, componenttest.NewNopExporterCreateSettings(), newPushLogsData(nil), WithCapabilities(capabilities))
 	require.NoError(t, err)
@@ -99,6 +110,8 @@ func TestLogsExporter_WithCapabilities(t *testing.T) {
 }
 
 func TestLogsExporter_Default_ReturnError(t *testing.T) {
+	t.Parallel()
+
 	ld := pdata.NewLogs()
 	want := errors.New("my_error")
 	le, err := NewLogsExporter(&fakeLogsExporterConfig, componenttest.NewNopExporterCreateSettings(), newPushLogsData(want))
@@ -108,6 +121,8 @@ func TestLogsExporter_Default_ReturnError(t *testing.T) {
 }
 
 func TestLogsExporter_WithRecordLogs(t *testing.T) {
+	t.Parallel()
+
 	le, err := NewLogsExporter(&fakeLogsExporterConfig, componenttest.NewNopExporterCreateSettings(), newPushLogsData(nil))
 	require.NoError(t, err)
 	require.NotNil(t, le)
@@ -116,6 +131,8 @@ func TestLogsExporter_WithRecordLogs(t *testing.T) {
 }
 
 func TestLogsExporter_WithRecordLogs_ReturnError(t *testing.T) {
+	t.Parallel()
+
 	want := errors.New("my_error")
 	le, err := NewLogsExporter(&fakeLogsExporterConfig, componenttest.NewNopExporterCreateSettings(), newPushLogsData(want))
 	require.Nil(t, err)
@@ -125,6 +142,8 @@ func TestLogsExporter_WithRecordLogs_ReturnError(t *testing.T) {
 }
 
 func TestLogsExporter_WithRecordEnqueueFailedMetrics(t *testing.T) {
+	t.Parallel()
+
 	tt, err := obsreporttest.SetupTelemetry()
 	require.NoError(t, err)
 	t.Cleanup(func() { require.NoError(t, tt.Shutdown(context.Background())) })
@@ -150,6 +169,8 @@ func TestLogsExporter_WithRecordEnqueueFailedMetrics(t *testing.T) {
 }
 
 func TestLogsExporter_WithSpan(t *testing.T) {
+	t.Parallel()
+
 	set := componenttest.NewNopExporterCreateSettings()
 	sr := new(tracetest.SpanRecorder)
 	set.TracerProvider = sdktrace.NewTracerProvider(sdktrace.WithSpanProcessor(sr))
@@ -163,6 +184,8 @@ func TestLogsExporter_WithSpan(t *testing.T) {
 }
 
 func TestLogsExporter_WithSpan_ReturnError(t *testing.T) {
+	t.Parallel()
+
 	set := componenttest.NewNopExporterCreateSettings()
 	sr := new(tracetest.SpanRecorder)
 	set.TracerProvider = sdktrace.NewTracerProvider(sdktrace.WithSpanProcessor(sr))
@@ -177,6 +200,8 @@ func TestLogsExporter_WithSpan_ReturnError(t *testing.T) {
 }
 
 func TestLogsExporter_WithShutdown(t *testing.T) {
+	t.Parallel()
+
 	shutdownCalled := false
 	shutdown := func(context.Context) error { shutdownCalled = true; return nil }
 
@@ -189,6 +214,8 @@ func TestLogsExporter_WithShutdown(t *testing.T) {
 }
 
 func TestLogsExporter_WithShutdown_ReturnError(t *testing.T) {
+	t.Parallel()
+
 	want := errors.New("my_error")
 	shutdownErr := func(context.Context) error { return want }
 

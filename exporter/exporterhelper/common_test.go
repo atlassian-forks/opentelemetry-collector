@@ -40,12 +40,16 @@ var (
 )
 
 func TestBaseExporter(t *testing.T) {
+	t.Parallel()
+
 	be := newBaseExporter(&defaultExporterCfg, componenttest.NewNopExporterCreateSettings(), fromOptions(), "", nopRequestUnmarshaler())
 	require.NoError(t, be.Start(context.Background(), componenttest.NewNopHost()))
 	require.NoError(t, be.Shutdown(context.Background()))
 }
 
 func TestBaseExporterWithOptions(t *testing.T) {
+	t.Parallel()
+
 	want := errors.New("my error")
 	be := newBaseExporter(
 		&defaultExporterCfg,

@@ -26,6 +26,8 @@ import (
 )
 
 func TestPersistentStorageBatch_Operations(t *testing.T) {
+	t.Parallel()
+
 	path := createTemporaryDirectory()
 	defer os.RemoveAll(path)
 

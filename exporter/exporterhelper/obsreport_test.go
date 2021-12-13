@@ -29,6 +29,8 @@ import (
 )
 
 func TestExportEnqueueFailure(t *testing.T) {
+	t.Parallel()
+
 	tt, err := obsreporttest.SetupTelemetry()
 	require.NoError(t, err)
 	t.Cleanup(func() { require.NoError(t, tt.Shutdown(context.Background())) })

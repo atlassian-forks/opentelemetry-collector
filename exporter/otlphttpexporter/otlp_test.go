@@ -49,6 +49,8 @@ import (
 )
 
 func TestInvalidConfig(t *testing.T) {
+	t.Parallel()
+
 	config := &Config{
 		HTTPClientSettings: confighttp.HTTPClientSettings{
 			Endpoint: "",
@@ -65,6 +67,8 @@ func TestInvalidConfig(t *testing.T) {
 }
 
 func TestTraceNoBackend(t *testing.T) {
+	t.Parallel()
+
 	addr := testutil.GetAvailableLocalAddress(t)
 	exp := startTracesExporter(t, "", fmt.Sprintf("http://%s/v1/traces", addr))
 	td := testdata.GenerateTracesOneSpan()
@@ -72,6 +76,8 @@ func TestTraceNoBackend(t *testing.T) {
 }
 
 func TestTraceInvalidUrl(t *testing.T) {
+	t.Parallel()
+
 	exp := startTracesExporter(t, "http:/\\//this_is_an/*/invalid_url", "")
 	td := testdata.GenerateTracesOneSpan()
 	assert.Error(t, exp.ConsumeTraces(context.Background(), td))
@@ -82,6 +88,8 @@ func TestTraceInvalidUrl(t *testing.T) {
 }
 
 func TestTraceError(t *testing.T) {
+	t.Parallel()
+
 	addr := testutil.GetAvailableLocalAddress(t)
 
 	startTracesReceiver(t, addr, consumertest.NewErr(errors.New("my_error")))
@@ -92,6 +100,8 @@ func TestTraceError(t *testing.T) {
 }
 
 func TestTraceRoundTrip(t *testing.T) {
+	t.Parallel()
+
 	addr := testutil.GetAvailableLocalAddress(t)
 
 	tests := []struct {
@@ -135,6 +145,8 @@ func TestTraceRoundTrip(t *testing.T) {
 }
 
 func TestMetricsError(t *testing.T) {
+	t.Parallel()
+
 	addr := testutil.GetAvailableLocalAddress(t)
 
 	startMetricsReceiver(t, addr, consumertest.NewErr(errors.New("my_error")))
@@ -145,6 +157,8 @@ func TestMetricsError(t *testing.T) {
 }
 
 func TestMetricsRoundTrip(t *testing.T) {
+	t.Parallel()
+
 	addr := testutil.GetAvailableLocalAddress(t)
 
 	tests := []struct {
@@ -188,6 +202,8 @@ func TestMetricsRoundTrip(t *testing.T) {
 }
 
 func TestLogsError(t *testing.T) {
+	t.Parallel()
+
 	addr := testutil.GetAvailableLocalAddress(t)
 
 	startLogsReceiver(t, addr, consumertest.NewErr(errors.New("my_error")))
@@ -198,6 +214,8 @@ func TestLogsError(t *testing.T) {
 }
 
 func TestLogsRoundTrip(t *testing.T) {
+	t.Parallel()
+
 	addr := testutil.GetAvailableLocalAddress(t)
 
 	tests := []struct {
@@ -241,6 +259,8 @@ func TestLogsRoundTrip(t *testing.T) {
 }
 
 func TestIssue_4221(t *testing.T) {
+	t.Parallel()
+
 	svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer func() { assert.NoError(t, r.Body.Close()) }()
 		data, err := ioutil.ReadAll(r.Body)
@@ -256,6 +276,7 @@ func TestIssue_4221(t *testing.T) {
 		assert.Equal(t, "4303853f086f4f8c86cf198b6551df84", span.TraceID().HexString())
 		assert.Equal(t, "e5513c32795c41b9", span.SpanID().HexString())
 	}))
+	t.Cleanup(svr.Close)
 
 	exp := startTracesExporter(t, "", svr.URL)
 
@@ -367,6 +388,8 @@ func startAndCleanup(t *testing.T, cmp component.Component) {
 }
 
 func TestErrorResponses(t *testing.T) {
+	t.Parallel()
+
 	addr := testutil.GetAvailableLocalAddress(t)
 	errMsgPrefix := fmt.Sprintf("error exporting items, request to http://%s/v1/traces responded with HTTP Status Code ", addr)
 
@@ -474,6 +497,8 @@ func TestErrorResponses(t *testing.T) {
 }
 
 func TestUserAgent(t *testing.T) {
+	t.Parallel()
+
 	addr := testutil.GetAvailableLocalAddress(t)
 	set := componenttest.NewNopExporterCreateSettings()
 	set.BuildInfo.Description = "Collector"

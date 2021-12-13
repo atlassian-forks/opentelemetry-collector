@@ -43,6 +43,8 @@ var (
 )
 
 func TestNewFactory(t *testing.T) {
+	t.Parallel()
+
 	factory := NewFactory(
 		typeStr,
 		defaultConfig)
@@ -57,6 +59,8 @@ func TestNewFactory(t *testing.T) {
 }
 
 func TestNewFactory_WithConstructors(t *testing.T) {
+	t.Parallel()
+
 	factory := NewFactory(
 		typeStr,
 		defaultConfig,

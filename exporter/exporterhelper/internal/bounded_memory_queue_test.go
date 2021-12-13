@@ -90,6 +90,8 @@ func helper(t *testing.T, startConsumers func(q ProducerConsumerQueue, consumerF
 }
 
 func TestBoundedQueue(t *testing.T) {
+	t.Parallel()
+
 	helper(t, func(q ProducerConsumerQueue, consumerFn func(item interface{})) {
 		q.StartConsumers(1, consumerFn)
 	})
@@ -145,6 +147,8 @@ func (s *consumerState) assertConsumed(expected map[string]bool) {
 }
 
 func TestZeroSize(t *testing.T) {
+	t.Parallel()
+
 	q := NewBoundedMemoryQueue(0, func(item interface{}) {
 	})
 

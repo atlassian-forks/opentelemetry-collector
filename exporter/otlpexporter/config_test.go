@@ -32,6 +32,8 @@ import (
 )
 
 func TestLoadConfig(t *testing.T) {
+	t.Parallel()
+
 	factories, err := componenttest.NopFactories()
 	assert.NoError(t, err)
 

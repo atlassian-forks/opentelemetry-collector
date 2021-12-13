@@ -47,6 +47,8 @@ func createTestQueue(extension storage.Extension, capacity int) *persistentQueue
 }
 
 func TestPersistentQueue_Capacity(t *testing.T) {
+	t.Parallel()
+
 	path := createTemporaryDirectory()
 	defer os.RemoveAll(path)
 
@@ -81,6 +83,8 @@ func TestPersistentQueue_Capacity(t *testing.T) {
 }
 
 func TestPersistentQueue_Close(t *testing.T) {
+	t.Parallel()
+
 	path := createTemporaryDirectory()
 	defer os.RemoveAll(path)
 
@@ -109,6 +113,8 @@ func TestPersistentQueue_Close(t *testing.T) {
 }
 
 func TestPersistentQueue_ConsumersProducers(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		numMessagesProduced int
 		numConsumers        int

@@ -48,6 +48,8 @@ var (
 )
 
 func TestMetricsRequest(t *testing.T) {
+	t.Parallel()
+
 	mr := newMetricsRequest(context.Background(), testdata.GenerateMetricsOneMetric(), nil)
 
 	metricsErr := consumererror.NewMetrics(errors.New("some error"), pdata.NewMetrics())
@@ -59,24 +61,32 @@ func TestMetricsRequest(t *testing.T) {
 }
 
 func TestMetricsExporter_InvalidName(t *testing.T) {
+	t.Parallel()
+
 	me, err := NewMetricsExporter(nil, componenttest.NewNopExporterCreateSettings(), newPushMetricsData(nil))
 	require.Nil(t, me)
 	require.Equal(t, errNilConfig, err)
 }
 
 func TestMetricsExporter_NilLogger(t *testing.T) {
+	t.Parallel()
+
 	me, err := NewMetricsExporter(&fakeMetricsExporterConfig, component.ExporterCreateSettings{}, newPushMetricsData(nil))
 	require.Nil(t, me)
 	require.Equal(t, errNilLogger, err)
 }
 
 func TestMetricsExporter_NilPushMetricsData(t *testing.T) {
+	t.Parallel()
+
 	me, err := NewMetricsExporter(&fakeMetricsExporterConfig, componenttest.NewNopExporterCreateSettings(), nil)
 	require.Nil(t, me)
 	require.Equal(t, errNilPushMetricsData, err)
 }
 
 func TestMetricsExporter_Default(t *testing.T) {
+	t.Parallel()
+
 	md := pdata.NewMetrics()
 	me, err := NewMetricsExporter(&fakeMetricsExporterConfig, componenttest.NewNopExporterCreateSettings(), newPushMetricsData(nil))
 	assert.NoError(t, err)
@@ -89,6 +99,8 @@ func TestMetricsExporter_Default(t *testing.T) {
 }
 
 func TestMetricsExporter_WithCapabilities(t *testing.T) {
+	t.Parallel()
+
 	capabilities := consumer.Capabilities{MutatesData: true}
 	me, err := NewMetricsExporter(&fakeMetricsExporterConfig, componenttest.NewNopExporterCreateSettings(), newPushMetricsData(nil), WithCapabilities(capabilities))
 	assert.NoError(t, err)
@@ -98,6 +110,8 @@ func TestMetricsExporter_WithCapabilities(t *testing.T) {
 }
 
 func TestMetricsExporter_Default_ReturnError(t *testing.T) {
+	t.Parallel()
+
 	md := pdata.NewMetrics()
 	want := errors.New("my_error")
 	me, err := NewMetricsExporter(&fakeMetricsExporterConfig, componenttest.NewNopExporterCreateSettings(), newPushMetricsData(want))
@@ -107,6 +121,8 @@ func TestMetricsExporter_Default_ReturnError(t *testing.T) {
 }
 
 func TestMetricsExporter_WithRecordMetrics(t *testing.T) {
+	t.Parallel()
+
 	me, err := NewMetricsExporter(&fakeMetricsExporterConfig, componenttest.NewNopExporterCreateSettings(), newPushMetricsData(nil))
 	require.NoError(t, err)
 	require.NotNil(t, me)
@@ -115,6 +131,8 @@ func TestMetricsExporter_WithRecordMetrics(t *testing.T) {
 }
 
 func TestMetricsExporter_WithRecordMetrics_ReturnError(t *testing.T) {
+	t.Parallel()
+
 	want := errors.New("my_error")
 	me, err := NewMetricsExporter(&fakeMetricsExporterConfig, componenttest.NewNopExporterCreateSettings(), newPushMetricsData(want))
 	require.NoError(t, err)
@@ -124,6 +142,8 @@ func TestMetricsExporter_WithRecordMetrics_ReturnError(t *testing.T) {
 }
 
 func TestMetricsExporter_WithRecordEnqueueFailedMetrics(t *testing.T) {
+	t.Parallel()
+
 	tt, err := obsreporttest.SetupTelemetry()
 	require.NoError(t, err)
 	t.Cleanup(func() { require.NoError(t, tt.Shutdown(context.Background())) })
@@ -149,6 +169,8 @@ func TestMetricsExporter_WithRecordEnqueueFailedMetrics(t *testing.T) {
 }
 
 func TestMetricsExporter_WithSpan(t *testing.T) {
+	t.Parallel()
+
 	set := componenttest.NewNopExporterCreateSettings()
 	sr := new(tracetest.SpanRecorder)
 	set.TracerProvider = sdktrace.NewTracerProvider(sdktrace.WithSpanProcessor(sr))
@@ -162,6 +184,8 @@ func TestMetricsExporter_WithSpan(t *testing.T) {
 }
 
 func TestMetricsExporter_WithSpan_ReturnError(t *testing.T) {
+	t.Parallel()
+
 	set := componenttest.NewNopExporterCreateSettings()
 	sr := new(tracetest.SpanRecorder)
 	set.TracerProvider = sdktrace.NewTracerProvider(sdktrace.WithSpanProcessor(sr))
@@ -176,6 +200,8 @@ func TestMetricsExporter_WithSpan_ReturnError(t *testing.T) {
 }
 
 func TestMetricsExporter_WithShutdown(t *testing.T) {
+	t.Parallel()
+
 	shutdownCalled := false
 	shutdown := func(context.Context) error { shutdownCalled = true; return nil }
 
@@ -189,6 +215,8 @@ func TestMetricsExporter_WithShutdown(t *testing.T) {
 }
 
 func TestMetricsExporter_WithShutdown_ReturnError(t *testing.T) {
+	t.Parallel()
+
 	want := errors.New("my_error")
 	shutdownErr := func(context.Context) error { return want }
 

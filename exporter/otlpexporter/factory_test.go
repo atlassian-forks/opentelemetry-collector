@@ -33,6 +33,8 @@ import (
 )
 
 func TestCreateDefaultConfig(t *testing.T) {
+	t.Parallel()
+
 	factory := NewFactory()
 	cfg := factory.CreateDefaultConfig()
 	assert.NotNil(t, cfg, "failed to create default config")
@@ -45,6 +47,8 @@ func TestCreateDefaultConfig(t *testing.T) {
 }
 
 func TestCreateMetricsExporter(t *testing.T) {
+	t.Parallel()
+
 	factory := NewFactory()
 	cfg := factory.CreateDefaultConfig().(*Config)
 	cfg.GRPCClientSettings.Endpoint = testutil.GetAvailableLocalAddress(t)
@@ -56,6 +60,8 @@ func TestCreateMetricsExporter(t *testing.T) {
 }
 
 func TestCreateTracesExporter(t *testing.T) {
+	t.Parallel()
+
 	endpoint := testutil.GetAvailableLocalAddress(t)
 	tests := []struct {
 		name             string
@@ -219,6 +225,8 @@ func TestCreateTracesExporter(t *testing.T) {
 }
 
 func TestCreateLogsExporter(t *testing.T) {
+	t.Parallel()
+
 	factory := NewFactory()
 	cfg := factory.CreateDefaultConfig().(*Config)
 	cfg.GRPCClientSettings.Endpoint = testutil.GetAvailableLocalAddress(t)

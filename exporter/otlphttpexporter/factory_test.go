@@ -32,6 +32,8 @@ import (
 )
 
 func TestCreateDefaultConfig(t *testing.T) {
+	t.Parallel()
+
 	factory := NewFactory()
 	cfg := factory.CreateDefaultConfig()
 	assert.NotNil(t, cfg, "failed to create default config")
@@ -48,6 +50,8 @@ func TestCreateDefaultConfig(t *testing.T) {
 }
 
 func TestCreateMetricsExporter(t *testing.T) {
+	t.Parallel()
+
 	factory := NewFactory()
 	cfg := factory.CreateDefaultConfig().(*Config)
 	cfg.HTTPClientSettings.Endpoint = "http://" + testutil.GetAvailableLocalAddress(t)
@@ -59,6 +63,8 @@ func TestCreateMetricsExporter(t *testing.T) {
 }
 
 func TestCreateTracesExporter(t *testing.T) {
+	t.Parallel()
+
 	endpoint := "http://" + testutil.GetAvailableLocalAddress(t)
 
 	tests := []struct {
@@ -162,6 +168,8 @@ func TestCreateTracesExporter(t *testing.T) {
 }
 
 func TestCreateLogsExporter(t *testing.T) {
+	t.Parallel()
+
 	factory := NewFactory()
 	cfg := factory.CreateDefaultConfig().(*Config)
 	cfg.HTTPClientSettings.Endpoint = "http://" + testutil.GetAvailableLocalAddress(t)

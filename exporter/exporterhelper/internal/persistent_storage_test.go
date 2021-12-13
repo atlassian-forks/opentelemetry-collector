@@ -105,6 +105,8 @@ func newFakeTracesRequestUnmarshalerFunc() RequestUnmarshaler {
 }
 
 func TestPersistentStorage_CorruptedData(t *testing.T) {
+	t.Parallel()
+
 	path := createTemporaryDirectory()
 	defer os.RemoveAll(path)
 
@@ -223,6 +225,8 @@ func TestPersistentStorage_CorruptedData(t *testing.T) {
 }
 
 func TestPersistentStorage_CurrentlyProcessedItems(t *testing.T) {
+	t.Parallel()
+
 	path := createTemporaryDirectory()
 	defer os.RemoveAll(path)
 
@@ -288,6 +292,8 @@ func TestPersistentStorage_CurrentlyProcessedItems(t *testing.T) {
 }
 
 func TestPersistentStorage_RepeatPutCloseReadClose(t *testing.T) {
+	t.Parallel()
+
 	path := createTemporaryDirectory()
 	defer os.RemoveAll(path)
 
@@ -338,6 +344,8 @@ func TestPersistentStorage_RepeatPutCloseReadClose(t *testing.T) {
 }
 
 func TestPersistentStorage_EmptyRequest(t *testing.T) {
+	t.Parallel()
+
 	path := createTemporaryDirectory()
 	defer os.RemoveAll(path)
 
@@ -403,6 +411,8 @@ func BenchmarkPersistentStorage_TraceSpans(b *testing.B) {
 }
 
 func TestPersistentStorage_ItemIndexMarshaling(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		arr1 []itemIndex
 		arr2 []itemIndex

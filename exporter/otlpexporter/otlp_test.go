@@ -184,6 +184,8 @@ func otlpMetricsReceiverOnGRPCServer(ln net.Listener) *mockMetricsReceiver {
 }
 
 func TestSendTraces(t *testing.T) {
+	t.Parallel()
+
 	// Start an OTLP-compatible receiver.
 	ln, err := net.Listen("tcp", "localhost:")
 	require.NoError(t, err, "Failed to find an available address to run the gRPC server: %v", err)
@@ -257,6 +259,8 @@ func TestSendTraces(t *testing.T) {
 }
 
 func TestSendTracesWhenEndpointHasHttpScheme(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name               string
 		useTLS             bool
@@ -330,6 +334,8 @@ func TestSendTracesWhenEndpointHasHttpScheme(t *testing.T) {
 }
 
 func TestSendMetrics(t *testing.T) {
+	t.Parallel()
+
 	// Start an OTLP-compatible receiver.
 	ln, err := net.Listen("tcp", "localhost:")
 	require.NoError(t, err, "Failed to find an available address to run the gRPC server: %v", err)
@@ -403,6 +409,8 @@ func TestSendMetrics(t *testing.T) {
 }
 
 func TestSendTraceDataServerDownAndUp(t *testing.T) {
+	t.Parallel()
+
 	// Find the addr, but don't start the server.
 	ln, err := net.Listen("tcp", "localhost:")
 	require.NoError(t, err, "Failed to find an available address to run the gRPC server: %v", err)
@@ -466,6 +474,8 @@ func TestSendTraceDataServerDownAndUp(t *testing.T) {
 }
 
 func TestSendTraceDataServerStartWhileRequest(t *testing.T) {
+	t.Parallel()
+
 	// Find the addr, but don't start the server.
 	ln, err := net.Listen("tcp", "localhost:")
 	require.NoError(t, err, "Failed to find an available address to run the gRPC server: %v", err)
@@ -539,6 +549,8 @@ func startServerAndMakeRequest(t *testing.T, exp component.TracesExporter, td pd
 }
 
 func TestSendLogData(t *testing.T) {
+	t.Parallel()
+
 	// Start an OTLP-compatible receiver.
 	ln, err := net.Listen("tcp", "localhost:")
 	require.NoError(t, err, "Failed to find an available address to run the gRPC server: %v", err)
