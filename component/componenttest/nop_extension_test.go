@@ -25,6 +25,8 @@ import (
 )
 
 func TestNewNopExtensionFactory(t *testing.T) {
+	t.Parallel()
+
 	factory := NewNopExtensionFactory()
 	require.NotNil(t, factory)
 	assert.Equal(t, config.Type("nop"), factory.Type())

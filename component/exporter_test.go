@@ -33,6 +33,8 @@ func (f *TestExporterFactory) Type() config.Type {
 }
 
 func TestBuildExporters(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		in  []ExporterFactory
 		out map[config.Type]ExporterFactory

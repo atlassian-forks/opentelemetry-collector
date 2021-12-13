@@ -35,6 +35,8 @@ func (f *TestProcessorFactory) Type() config.Type {
 }
 
 func TestMakeProcessorFactoryMap(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		in  []ProcessorFactory
 		out map[config.Type]ProcessorFactory

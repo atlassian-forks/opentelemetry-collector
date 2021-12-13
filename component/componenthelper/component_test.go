@@ -28,12 +28,16 @@ import (
 )
 
 func TestDefaultSettings(t *testing.T) {
+	t.Parallel()
+
 	cp := componenthelper.New()
 	require.NoError(t, cp.Start(context.Background(), componenttest.NewNopHost()))
 	require.NoError(t, cp.Shutdown(context.Background()))
 }
 
 func TestWithStart(t *testing.T) {
+	t.Parallel()
+
 	startCalled := false
 	start := func(context.Context, component.Host) error { startCalled = true; return nil }
 	cp := componenthelper.New(componenthelper.WithStart(start))
@@ -42,6 +46,8 @@ func TestWithStart(t *testing.T) {
 }
 
 func TestWithStart_ReturnError(t *testing.T) {
+	t.Parallel()
+
 	want := errors.New("my_error")
 	start := func(context.Context, component.Host) error { return want }
 	cp := componenthelper.New(componenthelper.WithStart(start))
@@ -49,6 +55,8 @@ func TestWithStart_ReturnError(t *testing.T) {
 }
 
 func TestWithShutdown(t *testing.T) {
+	t.Parallel()
+
 	shutdownCalled := false
 	shutdown := func(context.Context) error { shutdownCalled = true; return nil }
 	cp := componenthelper.New(componenthelper.WithShutdown(shutdown))
@@ -57,6 +65,8 @@ func TestWithShutdown(t *testing.T) {
 }
 
 func TestWithShutdown_ReturnError(t *testing.T) {
+	t.Parallel()
+
 	want := errors.New("my_error")
 	shutdown := func(context.Context) error { return want }
 	cp := componenthelper.New(componenthelper.WithShutdown(shutdown))

@@ -26,6 +26,8 @@ import (
 )
 
 func TestNewNopReceiverFactory(t *testing.T) {
+	t.Parallel()
+
 	factory := NewNopReceiverFactory()
 	require.NotNil(t, factory)
 	assert.Equal(t, config.Type("nop"), factory.Type())

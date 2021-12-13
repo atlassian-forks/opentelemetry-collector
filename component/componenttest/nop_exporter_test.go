@@ -26,6 +26,8 @@ import (
 )
 
 func TestNewNopExporterFactory(t *testing.T) {
+	t.Parallel()
+
 	factory := NewNopExporterFactory()
 	require.NotNil(t, factory)
 	assert.Equal(t, config.Type("nop"), factory.Type())

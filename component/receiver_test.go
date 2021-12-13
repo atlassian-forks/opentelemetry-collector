@@ -33,6 +33,8 @@ func (f *TestReceiverFactory) Type() config.Type {
 }
 
 func TestBuildReceivers(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		in  []ReceiverFactory
 		out map[config.Type]ReceiverFactory

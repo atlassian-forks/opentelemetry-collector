@@ -25,6 +25,8 @@ import (
 )
 
 func TestNewNopHost(t *testing.T) {
+	t.Parallel()
+
 	nh := NewNopHost()
 	require.NotNil(t, nh)
 	require.IsType(t, &nopHost{}, nh)

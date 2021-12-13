@@ -28,6 +28,8 @@ import (
 )
 
 func TestNewNopProcessorFactory(t *testing.T) {
+	t.Parallel()
+
 	factory := NewNopProcessorFactory()
 	require.NotNil(t, factory)
 	assert.Equal(t, config.Type("nop"), factory.Type())
